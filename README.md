@@ -4,7 +4,7 @@
 
 ## TODO:
 - [X] Make public github repo and share in slack + share updates and questions when stuck
-- [ ] Use Golang and Fiber to create a single endpoint website + returns *minified* JSON object + timestamp is dynamic
+- [X] Use Golang and Fiber to create a single endpoint web app + returns *minified* JSON object + timestamp is dynamic
 - [ ] Make Dockerfile (the container) to build application --> hosted in repo
 - [ ] Github Actions: create workflow --> 1. build Docker image 2. verify app functionality with tests provided by Liatrio, push image to OCI compliant repo (ex. Dockerhub)
 - [ ] Version of each image for each successful workflow run
