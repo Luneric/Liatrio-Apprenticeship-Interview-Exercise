@@ -9,15 +9,22 @@ import (
 )
 
 func main() {
-	app := fiber.New(fiber.Config{
-		JSONEncoder: json.Marshal,
-	})
+	app := fiber.New()
 
 	app.Get("/", func(c fiber.Ctx) error {
-		return c.JSON(fiber.Map{
+		payload := fiber.Map{
 			"message":   "My name is Carolyn Thai",
 			"timestamp": time.Now().UnixMilli(),
-		})
+		}
+
+		c.Set("Content-Type", "application/json")
+
+		err := json.NewEncoder(c.Response().BodyWriter()).Encode(payload)
+		if err != nil {
+			return c.Status(500).SendString("Encoder Error")
+		}
+
+		return nil
 	})
 
 	app.Listen(":3000")
