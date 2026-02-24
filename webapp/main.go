@@ -3,11 +3,15 @@ package main
 import (
 	"time"
 
+	"encoding/json"
+
 	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		JSONEncoder: json.Marshal,
+	})
 
 	app.Get("/", func(c fiber.Ctx) error {
 		return c.JSON(fiber.Map{
