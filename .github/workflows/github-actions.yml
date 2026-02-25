@@ -23,7 +23,7 @@ jobs:
       run: docker run -d -p 80:3000 --name liatrio-webapp ${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:${{ github.run_id }}
     
     - name: Run Liatrio Tests
-    # Runs 6 tests provided by Liatrio
+    # Runs tests provided by Liatrio (using SHA version because latest version has unfinished test that defaults error)
       uses: liatrio/github-actions/apprentice-action@0b41561cca6822cc8d880fe0e49e7807a41fdf91
 
     - name: Log in to Docker Hub
@@ -33,6 +33,6 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
     - name: Push Image
-    # Log into Docker Hub (Docker images on computer can be public so other people can see/access/download, like repo for images)
+    # Push image that has own version ID for every successful run (Docker images on computer can be public so other people can see/access/download, like repo for images)
       run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:${{ github.run_id }}
      
