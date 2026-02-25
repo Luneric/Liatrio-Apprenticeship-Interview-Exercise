@@ -24,7 +24,7 @@ jobs:
     
     - name: Run Liatrio Tests
     # Runs 6 tests provided by Liatrio
-      uses: liatrio/github-actions/apprentice-action@master
+      uses: liatrio/github-actions/apprentice-action@0b41561cca6822cc8d880fe0e49e7807a41fdf91
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
