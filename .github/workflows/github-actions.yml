@@ -10,6 +10,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     steps:
     - uses: actions/checkout@v5
     - name: Build the Docker image
@@ -33,4 +37,20 @@ jobs:
     - name: Push Image
     # Push image that has own version ID for every successful run (Docker images on computer can be public so other people can see/access/download, like repo for images)
       run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:${{ github.sha }} && docker push ${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:latest
+
+    # Pushing to Google Cloud Run
+    - name: Access to Google Cloud Run
+      uses: 'google-github-actions/auth@v2'
+      with:
+        workload_identity_provider: 'projects/343446715177/locations/global/workloadIdentityPools/github-actions/providers/github-provider'
+        service_account: '343446715177-compute@developer.gserviceaccount.com'
+    
+    - name: Deploy to Google Cloud Run
+      id: 'deploy'
+      uses: 'google-github-actions/deploy-cloudrun@v2'
+      with:
+        service: 'liatrio-webapp'
+        region: 'us-central1'
+        image: 'docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:${{ github.sha }}'
+        flags: '--allow-unauthenticated --port=3000'
      
