@@ -42,7 +42,7 @@ jobs:
     - name: Access to Google Cloud Run
       uses: 'google-github-actions/auth@v2'
       with:
-        workload_identity_provider: 'projects/343446715177/locations/global/workloadIdentityPools/github-actions/providers/github-provider'
+        workload_identity_provider: 'projects/343446715177/locations/global/workloadIdentityPools/github-actions/providers/github-actions'
         service_account: '343446715177-compute@developer.gserviceaccount.com'
     
     - name: Deploy to Google Cloud Run
