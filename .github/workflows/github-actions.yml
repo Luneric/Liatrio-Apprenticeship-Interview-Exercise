@@ -49,7 +49,7 @@ jobs:
       id: 'deploy'
       uses: 'google-github-actions/deploy-cloudrun@v2'
       with:
-        project_id: '343446715177'
+        project_id: 'liatrio-exercise-488612'
         service: 'liatrio-webapp'
         region: 'us-central1'
         image: 'docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:${{ github.sha }}'
