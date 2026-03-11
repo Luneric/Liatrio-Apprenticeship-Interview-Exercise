@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v5
     - name: Build the Docker image
     # Docker builds an image using the code here, specifically using the file named Dockerfile and tag it with what follows after
-      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:${{ github.sha }} --tag ${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:latest
+      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:${{ github.sha }}
 
     - name: Start Container To See Code Results
     # Docker runs (-d detached so GitHub Actions can run this in the background) -p for port, maps port 80 to port 3000 and adds name
@@ -36,22 +36,20 @@ jobs:
 
     - name: Push Image
     # Push image that has own version ID for every successful run (Docker images on computer can be public so other people can see/access/download, like repo for images)
-      run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:${{ github.sha }} && docker push ${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:latest
+      run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:${{ github.sha }}
 
-    # Pushing to Google Cloud Run
-    - name: Access to Google Cloud Run
-      uses: 'google-github-actions/auth@v2'
-      with:
-        workload_identity_provider: 'projects/343446715177/locations/global/workloadIdentityPools/github-actions/providers/github-actions'
-        service_account: '343446715177-compute@developer.gserviceaccount.com'
     
-    - name: Deploy to Google Cloud Run
+    - name: Authenticate to Google Cloud
+      uses: 'google-github-actions/auth@v3'
+      with: 
+        workload_identity_provider: 'projects/343446715177/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+        service_account: '343446715177-compute@developer.gserviceaccount.com'
+
+    - name: Deploy to Cloud Run
       id: 'deploy'
-      uses: 'google-github-actions/deploy-cloudrun@v2'
+      uses: 'google-github-actions/deploy-cloudrun@v3'
       with:
-        project_id: 'liatrio-exercise-488612'
         service: 'liatrio-webapp'
-        region: 'us-central1'
-        image: 'docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:${{ github.sha }}'
+        region: 'us-west2'
+        image: 'index.docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/liatrio-exercise:${{ github.sha }}'
         flags: '--allow-unauthenticated --port=3000'
-     
