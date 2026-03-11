@@ -8,8 +8,6 @@
 - [X] Make Dockerfile (the container) to build application --> hosted in repo
 - [X] Github Actions: create workflow --> 1. build Docker image 2. verify app functionality with tests provided by Liatrio, push image to OCI compliant repo (ex. Dockerhub)
 - [X] Version of each image for each successful workflow run
-- [ ] Deploy app to cloud platform of choice 
+- [X] Deploy app to cloud platform of choice 
 
-- [ ] Exta Credit
-
-- [ ] Present
+- [X] Exta Credit
